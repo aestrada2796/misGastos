@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ExpenseGroups\Schemas;
 
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class ExpenseGroupForm
@@ -10,7 +12,12 @@ class ExpenseGroupForm
     {
         return $schema
             ->components([
-                //
+                TextInput::make('name')
+                    ->label('Nombre')
+                    ->required()
+                    ->maxLength(255),
+                ColorPicker::make('color')
+                    ->label('Color'),
             ]);
     }
 }

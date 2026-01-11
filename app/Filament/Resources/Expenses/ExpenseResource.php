@@ -20,6 +20,14 @@ class ExpenseResource extends Resource
 {
     protected static ?string $model = Expense::class;
 
+    protected static ?string $navigationLabel = 'Gastos';
+
+    protected static ?string $modelLabel = 'Gasto';
+
+    protected static ?string $pluralModelLabel = 'Gastos';
+
+    protected static ?int $navigationSort = 2;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

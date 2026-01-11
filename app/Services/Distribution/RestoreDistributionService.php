@@ -7,10 +7,10 @@ namespace App\Services\Distribution;
 
 use App\Models\Distribution;
 
-class DeleteDistributionService
+class RestoreDistributionService
 {
     public function __invoke(Distribution $distribution): bool
     {
-        return $distribution->delete();
+        return $distribution->restore();
     }
 }

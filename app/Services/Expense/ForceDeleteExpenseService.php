@@ -7,10 +7,10 @@ namespace App\Services\Expense;
 
 use App\Models\Expense;
 
-class DeleteExpenseService
+class ForceDeleteExpenseService
 {
     public function __invoke(Expense $expense): bool
     {
-        return $expense->delete();
+        return $expense->forceDelete();
     }
 }

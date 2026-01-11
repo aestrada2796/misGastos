@@ -7,10 +7,10 @@ namespace App\Services\Income;
 
 use App\Models\Income;
 
-class DeleteIncomeService
+class RestoreIncomeService
 {
     public function __invoke(Income $income): bool
     {
-        return $income->delete();
+        return $income->restore();
     }
 }

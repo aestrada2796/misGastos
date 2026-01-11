@@ -7,10 +7,10 @@ namespace App\Services\ExpenseGroup;
 
 use App\Models\ExpenseGroup;
 
-class DeleteExpenseGroupService
+class ForceDeleteExpenseGroupService
 {
     public function __invoke(ExpenseGroup $expenseGroup): bool
     {
-        return $expenseGroup->delete();
+        return $expenseGroup->forceDelete();
     }
 }

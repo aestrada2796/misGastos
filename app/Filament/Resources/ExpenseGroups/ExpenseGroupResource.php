@@ -20,6 +20,14 @@ class ExpenseGroupResource extends Resource
 {
     protected static ?string $model = ExpenseGroup::class;
 
+    protected static ?string $navigationLabel = 'Grupos de Gastos';
+
+    protected static ?string $modelLabel = 'Grupo de Gastos';
+
+    protected static ?string $pluralModelLabel = 'Grupos de Gastos';
+
+    protected static ?int $navigationSort = 1;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema

@@ -20,6 +20,14 @@ class IncomeResource extends Resource
 {
     protected static ?string $model = Income::class;
 
+    protected static ?string $navigationLabel = 'Ingresos';
+
+    protected static ?string $modelLabel = 'Ingreso';
+
+    protected static ?string $pluralModelLabel = 'Ingresos';
+
+    protected static ?int $navigationSort = 3;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema
