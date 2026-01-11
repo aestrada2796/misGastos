@@ -7,5 +7,8 @@ namespace App\Services\Expense;
 
 class UpdateExpenseService
 {
+    public function __invoke($data)
+    {
 
+    }
 }

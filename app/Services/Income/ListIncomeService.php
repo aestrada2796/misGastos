@@ -7,5 +7,8 @@ namespace App\Services\Income;
 
 class ListIncomeService
 {
+    public function __invoke($data)
+    {
 
+    }
 }

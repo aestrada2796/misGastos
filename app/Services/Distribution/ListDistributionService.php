@@ -7,5 +7,8 @@ namespace App\Services\Distribution;
 
 class ListDistributionService
 {
+    public function __invoke($data)
+    {
 
+    }
 }
