@@ -10,11 +10,14 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ExpensesTable
 {
@@ -42,7 +45,12 @@ class ExpensesTable
                 TextColumn::make('unit_price')
                     ->label('Precio Unitario')
                     ->money('MXN')
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(
+                        Sum::make()
+                            ->label('')
+                            ->money('MXN')
+                    ),
                 TextColumn::make('total')
                     ->label('Total')
                     ->state(function ($record) {
@@ -62,6 +70,7 @@ class ExpensesTable
                         'weekly' => 'Semanal',
                         'biweekly' => 'Quincenal',
                         'monthly' => 'Mensual',
+                        'bimonthly' => 'Bimestral',
                         'quarterly' => 'Trimestral',
                         'semiannually' => 'Semestral',
                         'annually' => 'Anual',
@@ -90,13 +99,51 @@ class ExpensesTable
                     ->label('Grupo de Gastos')
                     ->options($expenseGroupService())
                     ->searchable(),
+                Filter::make('date')
+                    ->form([
+                        \Filament\Forms\Components\DatePicker::make('date_from')
+                            ->label('Fecha desde'),
+                        \Filament\Forms\Components\DatePicker::make('date_until')
+                            ->label('Fecha hasta'),
+                    ])
+                    ->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('period')
+                    ->label('Período')
+                    ->options([
+                        'single_payment' => 'Pago único',
+                        'weekly' => 'Semanal',
+                        'biweekly' => 'Quincenal',
+                        'monthly' => 'Mensual',
+                        'bimonthly' => 'Bimestral',
+                        'quarterly' => 'Trimestral',
+                        'semiannually' => 'Semestral',
+                        'annually' => 'Anual',
+                    ])
+                    ->searchable(),
                 TernaryFilter::make('paid')
                     ->label('Pagado')
                     ->trueLabel('Solo pagados')
                     ->falseLabel('Solo no pagados')
                     ->placeholder('Todos'),
+                TernaryFilter::make('indefinite')
+                    ->label('Indefinido')
+                    ->trueLabel('Solo indefinidos')
+                    ->falseLabel('Solo con fecha fin')
+                    ->placeholder('Todos'),
                 TrashedFilter::make(),
             ])
+            ->filtersFormColumns(2)
             ->recordActions([
                 EditAction::make(),
             ])

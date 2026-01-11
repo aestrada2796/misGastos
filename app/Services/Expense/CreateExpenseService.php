@@ -23,7 +23,7 @@ class CreateExpenseService
             'unit_price' => 'required|numeric|min:0',
             'paid' => 'boolean',
             'indefinite' => 'boolean',
-            'period' => 'required|in:single_payment,weekly,biweekly,monthly,quarterly,semiannually,annually',
+            'period' => 'required|in:single_payment,weekly,biweekly,monthly,bimonthly,quarterly,semiannually,annually',
         ])->validate();
 
         return Expense::create($validated);

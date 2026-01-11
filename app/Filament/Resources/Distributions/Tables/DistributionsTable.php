@@ -37,9 +37,6 @@ class DistributionsTable
                     ->label('Porcentaje')
                     ->formatStateUsing(fn ($state) => number_format($state, 2) . '%')
                     ->sortable(),
-                CheckboxColumn::make('visible')
-                    ->label('Visible')
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Creado')
                     ->dateTime()
@@ -67,6 +64,7 @@ class DistributionsTable
                     ->placeholder('Todos'),
                 TrashedFilter::make(),
             ])
+            ->filtersFormColumns(2)
             ->recordActions([
                 EditAction::make(),
             ])

@@ -48,9 +48,6 @@ class DistributionForm
                     ->suffix('%')
                     ->required()
                     ->default(0),
-                Toggle::make('visible')
-                    ->label('Visible')
-                    ->default(true),
             ]);
     }
 }

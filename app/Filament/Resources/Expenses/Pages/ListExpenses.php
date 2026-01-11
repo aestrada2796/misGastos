@@ -55,8 +55,25 @@ class ListExpenses extends ListRecords
                         $filterData['group_id'] = $this->tableFilters['group_id']['value'];
                     }
 
+                    if (isset($this->tableFilters['date']['value'])) {
+                        if (isset($this->tableFilters['date']['value']['date_from']) && !empty($this->tableFilters['date']['value']['date_from'])) {
+                            $filterData['date_from'] = $this->tableFilters['date']['value']['date_from'];
+                        }
+                        if (isset($this->tableFilters['date']['value']['date_until']) && !empty($this->tableFilters['date']['value']['date_until'])) {
+                            $filterData['date_until'] = $this->tableFilters['date']['value']['date_until'];
+                        }
+                    }
+
+                    if (isset($this->tableFilters['period']['value']) && !empty($this->tableFilters['period']['value'])) {
+                        $filterData['period'] = $this->tableFilters['period']['value'];
+                    }
+
                     if (isset($this->tableFilters['paid']['value']) && $this->tableFilters['paid']['value'] !== null && $this->tableFilters['paid']['value'] !== '') {
                         $filterData['paid'] = (bool) $this->tableFilters['paid']['value'];
+                    }
+
+                    if (isset($this->tableFilters['indefinite']['value']) && $this->tableFilters['indefinite']['value'] !== null && $this->tableFilters['indefinite']['value'] !== '') {
+                        $filterData['indefinite'] = (bool) $this->tableFilters['indefinite']['value'];
                     }
 
                     if (isset($this->tableFilters['trashed']['value']) && !empty($this->tableFilters['trashed']['value'])) {

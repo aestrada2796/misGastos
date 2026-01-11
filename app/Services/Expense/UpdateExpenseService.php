@@ -23,7 +23,7 @@ class UpdateExpenseService
             'unit_price' => 'sometimes|required|numeric|min:0',
             'paid' => 'sometimes|boolean',
             'indefinite' => 'sometimes|boolean',
-            'period' => 'sometimes|required|in:single_payment,weekly,biweekly,monthly,quarterly,semiannually,annually',
+            'period' => 'sometimes|required|in:single_payment,weekly,biweekly,monthly,bimonthly,quarterly,semiannually,annually',
         ])->validate();
 
         $expense->update($validated);

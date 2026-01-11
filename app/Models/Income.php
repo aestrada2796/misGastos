@@ -18,6 +18,16 @@ class Income extends BaseUuid
         'date' => 'datetime:Y-m-d',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Income $income) {
+            // Eliminar en cascada las distributions relacionadas
+            $income->distributions()->each(function ($distribution) {
+                $distribution->delete();
+            });
+        });
+    }
+
     /**
      * @autor Adrian Estrada
      * @return HasMany

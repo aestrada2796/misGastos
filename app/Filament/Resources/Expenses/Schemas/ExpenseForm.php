@@ -58,6 +58,7 @@ class ExpenseForm
                         'weekly' => 'Semanal',
                         'biweekly' => 'Quincenal',
                         'monthly' => 'Mensual',
+                        'bimonthly' => 'Bimestral',
                         'quarterly' => 'Trimestral',
                         'semiannually' => 'Semestral',
                         'annually' => 'Anual',

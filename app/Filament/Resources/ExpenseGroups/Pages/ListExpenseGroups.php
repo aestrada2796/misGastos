@@ -43,6 +43,10 @@ class ListExpenseGroups extends ListRecords
                 $filterData = [];
 
                 if ($this->tableFilters) {
+                    if (isset($this->tableFilters['name']['value']) && !empty($this->tableFilters['name']['value'])) {
+                        $filterData['name'] = $this->tableFilters['name']['value'];
+                    }
+
                     if (isset($this->tableFilters['trashed']['value']) && !empty($this->tableFilters['trashed']['value'])) {
                         $filterData['trashed'] = $this->tableFilters['trashed']['value'];
                     }

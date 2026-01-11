@@ -11,13 +11,28 @@ class ExpenseGroup extends BaseUuid
         'color',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (ExpenseGroup $expenseGroup) {
+            // Eliminar en cascada los expenses relacionados
+            $expenseGroup->expenses()->each(function ($expense) {
+                $expense->delete();
+            });
+
+            // Eliminar en cascada las distributions relacionadas
+            $expenseGroup->distributions()->each(function ($distribution) {
+                $distribution->delete();
+            });
+        });
+    }
+
     /**
      * @autor Adrian Estrada
      * @return HasMany
      */
     public function expenses(): HasMany
     {
-        return $this->hasMany(ExpenseGroup::class, 'group_id');
+        return $this->hasMany(Expense::class, 'group_id');
     }
 
     /**

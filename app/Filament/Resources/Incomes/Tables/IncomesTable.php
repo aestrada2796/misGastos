@@ -9,8 +9,11 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class IncomesTable
 {
@@ -60,8 +63,61 @@ class IncomesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Filter::make('date')
+                    ->form([
+                        \Filament\Forms\Components\DatePicker::make('date_from')
+                            ->label('Fecha desde'),
+                        \Filament\Forms\Components\DatePicker::make('date_until')
+                            ->label('Fecha hasta'),
+                    ])
+                    ->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('period')
+                    ->label('Período')
+                    ->options([
+                        'single_payment' => 'Pago único',
+                        'weekly' => 'Semanal',
+                        'biweekly' => 'Quincenal',
+                        'monthly' => 'Mensual',
+                        'quarterly' => 'Trimestral',
+                        'semiannually' => 'Semestral',
+                        'annually' => 'Anual',
+                    ])
+                    ->searchable(),
+                Filter::make('amount')
+                    ->form([
+                        \Filament\Forms\Components\TextInput::make('amount_from')
+                            ->label('Monto desde')
+                            ->numeric(),
+                        \Filament\Forms\Components\TextInput::make('amount_until')
+                            ->label('Monto hasta')
+                            ->numeric(),
+                    ])
+                    ->columns(2)
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['amount_from'],
+                                fn (Builder $query, $amount): Builder => $query->where('amount', '>=', $amount),
+                            )
+                            ->when(
+                                $data['amount_until'],
+                                fn (Builder $query, $amount): Builder => $query->where('amount', '<=', $amount),
+                            );
+                    }),
                 TrashedFilter::make(),
             ])
+            ->filtersFormColumns(2)
             ->recordActions([
                 EditAction::make(),
             ])

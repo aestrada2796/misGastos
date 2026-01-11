@@ -14,7 +14,10 @@ class ListExpenseGroupService
     {
         $query = ExpenseGroup::query();
 
-        // Aplicar filtros si es necesario en el futuro
+        if (isset($filters['name']) && !empty($filters['name'])) {
+            $query->where('name', 'like', "%{$filters['name']}%");
+        }
+
         if (isset($filters['trashed'])) {
             match ($filters['trashed']) {
                 'only' => $query->onlyTrashed(),

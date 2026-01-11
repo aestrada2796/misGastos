@@ -28,6 +28,7 @@ return new class extends Migration
                 'weekly',
                 'biweekly',
                 'monthly',
+                'bimonthly',
                 'quarterly',
                 'semiannually',
                 'annually',
